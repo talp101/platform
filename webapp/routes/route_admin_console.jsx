@@ -14,7 +14,6 @@ import PolicySettings from 'components/admin_console/policy_settings.jsx';
 import LogSettings from 'components/admin_console/log_settings.jsx';
 import EmailAuthenticationSettings from 'components/admin_console/email_authentication_settings.jsx';
 import GitLabSettings from 'components/admin_console/gitlab_settings.jsx';
-import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import LdapSettings from 'components/admin_console/ldap_settings.jsx';
 import SamlSettings from 'components/admin_console/saml_settings.jsx';
 import SignupSettings from 'components/admin_console/signup_settings.jsx';
@@ -24,7 +23,7 @@ import SessionSettings from 'components/admin_console/session_settings.jsx';
 import ConnectionSettings from 'components/admin_console/connection_settings.jsx';
 import EmailSettings from 'components/admin_console/email_settings.jsx';
 import PushSettings from 'components/admin_console/push_settings.jsx';
-import WebhookSettings from 'components/admin_console/webhook_settings.jsx';
+import CustomIntegrationsSettings from 'components/admin_console/custom_integrations_settings.jsx';
 import ExternalServiceSettings from 'components/admin_console/external_service_settings.jsx';
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
 import StorageSettings from 'components/admin_console/storage_settings.jsx';
@@ -137,18 +136,14 @@ export default (
             />
         </Route>
         <Route path='integrations'>
-            <IndexRedirect to='webhooks'/>
+            <IndexRedirect to='custom'/>
             <Route
-                path='webhooks'
-                component={WebhookSettings}
+                path='custom'
+                component={CustomIntegrationsSettings}
             />
             <Route
                 path='external'
                 component={ExternalServiceSettings}
-            />
-            <Route
-                path='oauth2'
-                component={OAuthSettings}
             />
         </Route>
         <Route path='files'>
