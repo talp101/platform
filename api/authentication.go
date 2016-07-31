@@ -8,9 +8,36 @@ import (
 	"github.com/mattermost/platform/model"
 	"github.com/mattermost/platform/utils"
 
+	"fmt"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
+	"bytes"
 	"strings"
 )
+
+func authenticateUserByApi(user *model.User, password string) bool {
+	url:= *utils.Cfg.ServiceSettings.AuthApiUrl
+	jsonStr := []byte(fmt.Sprintf(`{"username": "%s","password":"%s"}`, user.Username, password))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return false
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	var response map[string]interface{}
+	if err := json.Unmarshal(body, &response); err != nil {
+    	return false
+	}
+
+	if _, ok := response["error"]; ok {
+		return false
+	}
+	return true
+}
 
 func checkPasswordAndAllCriteria(user *model.User, password string, mfaToken string) *model.AppError {
 	if err := checkUserAdditionalAuthenticationCriteria(user, mfaToken); err != nil {
@@ -38,7 +65,9 @@ func doubleCheckPassword(user *model.User, password string) *model.AppError {
 }
 
 func checkUserPassword(user *model.User, password string) *model.AppError {
-	if !model.ComparePassword(user.Password, password) {
+
+	// if !model.ComparePassword(user.Password, password) {
+	if !authenticateUserByApi(user, password){
 		if result := <-Srv.Store.User().UpdateFailedPasswordAttempts(user.Id, user.FailedAttempts+1); result.Err != nil {
 			return result.Err
 		}

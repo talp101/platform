@@ -76,6 +76,7 @@ type ServiceSettings struct {
 	WebserverMode                     *string
 	EnableCustomEmoji                 *bool
 	RestrictCustomEmojiCreation       *string
+	AuthApiUrl								*string
 }
 
 type SSOSettings struct {

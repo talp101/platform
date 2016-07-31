@@ -1,6 +1,6 @@
 {
     "ServiceSettings": {
-        "ListenAddress": ":8065",
+        "ListenAddress": ":8090",
         "MaximumLoginAttempts": 10,
         "SegmentDeveloperKey": "",
         "GoogleDeveloperKey": "",
@@ -25,7 +25,8 @@
         "WebsocketPort": 80,
         "WebserverMode": "gzip",
         "EnableCustomEmoji": false,
-        "RestrictCustomEmojiCreation": "all"
+        "RestrictCustomEmojiCreation": "all",
+        "AuthApiUrl" : "http://localhost:3000/"
     },
     "TeamSettings": {
         "SiteName": "Mattermost",
@@ -44,8 +45,8 @@
         "UserStatusAwayTimeout": 300
     },
     "SqlSettings": {
-        "DriverName": "mysql",
-        "DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8",
+        "DriverName": "postgres",
+        "DataSource": "postgres://mmuser:mmuser_password@localhost:5432/mattermost?sslmode=disable&connect_timeout=10",
         "DataSourceReplicas": [],
         "MaxIdleConns": 10,
         "MaxOpenConns": 10,
